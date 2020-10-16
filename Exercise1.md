@@ -43,5 +43,4 @@ Go to the [Microsoft 365 admin center](https://portal.office.com/AdminPortal/Hom
 ---
 😎 NAVIGATING MANY TENANTS: Consider creating a browser profile for each tenant that will have its own favorites, stored credentials, and cookies so you can easily work in your development tenant(s) as well as your production environment.
 
-
 When you're ready, please [proceed to the next section.](Exercise2.md)

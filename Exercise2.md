@@ -5,10 +5,12 @@
  * [Exercise 3: Warehouse Packing App with Microsoft Graph Toolkit](Exercise3.md) 
  * [Resources](Resources.md)
 
-In this section, you'll create a JavaScript Single Page Application (SPA) and use the Microsoft Graph API to read and render your calendar entries from your Microsoft 365 tenant to the webpage.
+In this section, you'll create a JavaScript Single Page Application (SPA) and use the Microsoft Graph API to read, render, and create new entries in your Microsoft 365 calendar.
 
-Follow the tutorial below to complete this exercise.
+## Step 1: Create some calendar entries 📆
+TODO: Instructions for creating calendar entries for the correct timeframe to be used.
 
+## Step 2: Follow the tutorial below to complete this exercise
 [Tutorial: Build JavaScript single-page apps with Microsoft Graph](https://docs.microsoft.com/en-gb/graph/tutorials/javascript)
 
 Note that you can skip the prerequisite step of creating a developer tenant as you've already completed that in the lab setup.

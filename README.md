@@ -1,5 +1,5 @@
 # Microsoft 365 Developer Bootcamp (Graph Lab 🦒)
-Labs for the Microsoft 365 Developer Bootcamp training on Microsoft Graph and Grpah Toolkit 2020
+Labs for the Microsoft 365 Developer Bootcamp training on Microsoft Graph and Graph Toolkit 2020
 
  * [Exercise 1: Lab setup](Exercise1.md)
  * [Exercise 2: Build a JavaScript single-page app with Microsoft Graph](Exercise2.md)

@@ -8,16 +8,20 @@
 In this section, you'll create a JavaScript Single Page Application (SPA) and use the Microsoft Graph API to read and render calendar items in your web app, and also create new entries in your Microsoft 365 calendar.
 
 ## Step 1: Create some calendar entries 📆
-TODO: Instructions for creating calendar entries for the correct timeframe to be used.
+We will need some calendar entries in your calendar (in the coming few days) for this tutorial.
+Sign in to your dev tenant and open your Outlook calendar and create at least 3 calendar entries within the the next week.
+[https://outlook.office.com/calendar](https://outlook.office.com/calendar)
+
 
 ## Step 2: Follow the tutorial below to complete this exercise
 [Tutorial: Build JavaScript single-page apps with Microsoft Graph](https://docs.microsoft.com/en-gb/graph/tutorials/javascript)
 
-Note that you can skip the prerequisite step of creating a developer tenant as you've already completed that in the lab setup.
+Note that you can skip the prerequisite step of creating a developer tenant as you've already completed that in the lab setup, but ensure that you have Node.js installed. This lab has been tested with Node.js 12.19.0
 
-Ensure that you have Node.js installed. This lab has been tested with Node.js 12.19.0
+## ⚠ Known issues with this lab
+When you create the ui.js and copy the code, there is an error in the code. You must change the the following if statement to be `if (user)` instead of `if (account)`
+[Tutorial GitHub Repo - Issue 16](https://github.com/microsoftgraph/msgraph-training-javascriptspa/issues/16)
 
-![jsspa](./images/JS-SPA-01-Skip-Dev-Tenant-Setup.jpg)
+![jsspa](./images/JS-SPA-02-if-user.jpg)
 
-
-When you're ready, please [proceed to the next section.](Exercise3.md)
+When you've completed the tutorial, please [proceed to the next section.](Exercise3.md)

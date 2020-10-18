@@ -70,7 +70,7 @@ Your populated list should look similar to the following.
 
 🎉Celebrate a little, SharePoint is setup and ready to go. Let's go develop our web application! 😎
 
-## Create project directory
+## Create the project directory
 Create a new directory for the Warehouse Packaging App
 
 ## Start a local web server
@@ -182,21 +182,83 @@ button.inactive {
 }
 ```
 
-## Add reference to Microsoft Graph Toolkit (MGT)
+Save your changes to these 2 files and refresh the browser.
+
+![htmlcss](./images/mgt-01.jpg)
+
 
 ## Create App registration in Azure Active Directory
-TODO
-Link to Beth's article
+Before we can use the Graph Toolkit in our web application we need to create an app registration in Azure Active Directory. This is so that when we make calls to the Graph, Azure knows it is our app making the call and also allows the display of a consent prompt to the user to ensure they are ok with our app accessing information in their tenant.
+
+1. Login to the [Azure Portal](https://portal.azure.com) using the account you created with your developer subscription.
+2. Select Azure Active Directory in the navigation, then select App Registrations under Manage and click New registration.
+3. On the Register an application page, set the following values:
+* Set Name to `Warehouse App`
+* Set Supported account types to Accounts in any organizational directory
+* Under Redirect URI, set the drop-down to `Single Page Application (SPA)` and set the value to `http://localhost:8080/`
+
+![appreg](./images/mgt-02.jpg)
+
+4. Click Register. Locate your application (client) ID. You will need to reference this later.
+
+![clientid](./images/mgt-03.jpg)
+
+5. Under Manage on the left-hand navigation, select Authentication. Locate the Implicit Grant section and enable both Access tokens and ID tokens, then click Save.
+
+![clientid](./images/mgt-05.jpg)
+
+## Add Microsoft Graph Toolkit (MGT) to the web application
+Time to make the magic happen 🎩🐇
+
+1. Add the Microsoft Graph Toolkit to our web application by including the Microsoft Graph Toolkit loader script in the `<head>` of our index.html file
+
+```
+<script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+```
+
+2. Add the mgt-msal-provider component to the top of the `<body>` in the index.html file. Insert the application (client) ID from your application registration in Azure Active Directory. You must set up a provider component so that the Graph Toolkit is able to identify your application to Azure. This provider is used by the other components in the Graph Toolkit.
+
+```
+<mgt-msal-provider client-id="{YOUR APPLICATION (CLIENT) ID}"></mgt-msal-provider>
+```
+
+3. Add the mgt-login component as a new `<li>` within the `<header>` of the index.html file. This will render the Grpah Toolkit Login control in the hader bar across the top of our application.
+
+```
+<li style="float:right"><mgt-login></mgt-login></li>
+```
+
+After completing the 3 steps above the index.html file should look like this (with the client-id substituted)
+
+```
+<html>
+  <head>
+    <script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <mgt-msal-provider client-id="7ec83c73-e374-4a33-8b5c-280883c785d2"></mgt-msal-provider>
+    <header>
+      <ul>
+        <li>Warehouse App</li>
+        <li style="float:right"><mgt-login></mgt-login></li>
+      </ul>
+    </header>
+  </body>
+</html>
+```
 
 
-## Add mgt-msal-provider for authentication
+Save those changes and refresh the browser. You may not immediately see the login component, that's because its font color is the same as our header bar. Try hovering your mouse over the right end of the header bar and you should be able to see it 👀 This wasn't by chance, I wanted to show you how we can provide our own styling to the Toolkit components (which we will do in the next step).
+
+![mgtlogin](./images/mgt-04.jpg)
 
 ## Add mgt-login component and customise the styling
 
 
-Toolkit component allow for styling customisation. [Read this article to learn how it works](https://developer.microsoft.com/en-us/graph/blogs/a-lap-around-microsoft-graph-toolkit-day-4-customizing-components/)
+Toolkit components allow for styling customisation. [This article explains how styling customisation works](https://developer.microsoft.com/en-us/graph/blogs/a-lap-around-microsoft-graph-toolkit-day-4-customizing-components/)
 
-Add the following style rule to `styles.css`
+Add the following style rule to the bottom of the `styles.css` file
 ```
 mgt-login {
     --color: white;
@@ -204,11 +266,30 @@ mgt-login {
 }
 ```
 
+Save your changes and refresh the web browser. You should now see the mgt-login component, go ahead and sign-in using your Developer Tenant account. You will be prompted to give consent for the Warehouse application to access your data, once you do the login flow is complete and you can click on the mgt-login compnent to see your details.
+
+![mgtlogin](./images/mgt-06.jpg)
+
+![mgtlogin](./images/mgt-07.jpg)
+
+Get outta town, we just added authentication and consent, a sign-in/out UI mechanism, returned the users profile image and account details by adding 3 lines of HTML (and no JavaScript!)
+
 ## Use Graph Explorer to verify query for SharePoint items
-TODO
+Back to the job at hand, we want to query the Orders list in SharePoint for any orders that are ready for packing, return the order details and show them on a card in our web application. Now which Graph Toolkit component should we use for that? Well as it happens there isn't a component specially for showing SharePoint items, but we can use the mgt-get component to make any Graph API call. The mgt-get component also allows us to provide a custom HTML template that will bind the returned properties and render to our web page.
+
+We need to come up with the Graph API query that we will supply to the mgt-get component. To do this we are going to use the Grpah Explorer website.
+
+1. Open the [Graph Explorer](https://aka.ms/ge) website
+2. Sign-in to Grpah Explorer using the credentials of your Developer Tenant
+
+
 
 ## Add mgt-get component to fetch SharePoint items
 TODO
 
 ## Update SharePoint item status using Graph SDK (obtained through MGT Provider)
 TODO
+
+
+https://developer.microsoft.com/en-us/microsoft-365/blogs/a-lap-around-microsoft-graph-toolkit-day-2-zero-to-hero/
+ 

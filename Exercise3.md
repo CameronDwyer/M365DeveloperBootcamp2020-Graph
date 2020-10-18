@@ -280,12 +280,94 @@ Back to the job at hand, we want to query the Orders list in SharePoint for any 
 We need to come up with the Graph API query that we will supply to the mgt-get component. To do this we are going to use the Grpah Explorer website.
 
 1. Open the [Graph Explorer](https://aka.ms/ge) website
-2. Sign-in to Grpah Explorer using the credentials of your Developer Tenant
+2. Sign-in to Graph Explorer using the credentials of your Developer Tenant
+3. Enter the following query (substituting your SharePoint tenant domain)
 
+```
+https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists?$select=id,displayName
+```
 
+4. This should return the id and displayName of each list in the Warehouse site. Take note of the ID of the Orders list, we need it for the next step
+5. Modify the Graph query as shown below to query the Orders list for items in the Status of `Ready for Packing`
+
+```
+https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists/{YOUR-ORDERS-LIST-ID}/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'"
+```  
+6. Verify that your are getting the correct 2 SharePoint items returned from this query.
+
+![graphexplorer](./images/mgt-08.jpg)
 
 ## Add mgt-get component to fetch SharePoint items
-TODO
+1. Add the mgt-get component to the index.html file and insert your query from the Graph Explorer
+```
+<mgt-get resource="https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists/{YOUR-ORDERS-LIST-ID}/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'"
+     scopes="sites.read.all" max-pages="2" polling-rate="5000">
+```
+
+* `scopes` property tells the Graph Toolkit the permissions the user needs to have consented to for our query (the Graph Toolkit will automatically prompt the user for consent the first time this query runs)
+* `polling-rate` will re-execute the query every 5 seconds. This means our warehouse packers won't need to manually refresh the app to see when new orders arrive
+
+2. Since the mgt-get doesn't know what we are querying for, it doesn't know how to display the results. We need to extend the mgt-get implementation to provide the HTML template to render each of the results returned by the Graph query.
+```
+<mgt-get resource="https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists/{YOUR-ORDERS-LIST-ID}/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'"
+     scopes="sites.read.all" max-pages="2" polling-rate="5000">
+      <template data-type="value">
+        <div class="order">
+          <div class="orderheader">Order {{ fields.Title }} for {{ fields.ContactName }}</div>
+          <div class="orderbody">{{ fields.OrderManifest }}</div>
+          <div class="orderfooter">Items {{ fields.TotalItems }}</div>
+        </div>
+      </template>
+      <template data-type="loading">
+        loading
+      </template>
+      <template data-type="error">
+        {{ this.message }}
+      </template>
+    </mgt-get>
+```
+
+The full index.html should now look similar to this (with your application ID and Graph query targeting your SharePoint tenant)
+```
+<html>
+  <head>
+    <script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <mgt-msal-provider client-id="7ec83c73-e374-4a33-8b5c-280883c785d2"></mgt-msal-provider>
+    <header>
+      <ul>
+        <li>Warehouse App</li>
+        <li style="float:right"><mgt-login></mgt-login></li>
+      </ul>
+    </header>
+    <mgt-get resource="https://graph.microsoft.com/v1.0/sites/camtoso.sharepoint.com:/sites/warehouse:/lists/8965da33-f640-4edd-b04a-fc2cf141edf1/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'"
+     scopes="sites.read.all" max-pages="2" polling-rate="5000">
+      <template data-type="value">
+        <div class="order">
+          <div class="orderheader">Order {{ fields.Title }} for {{ fields.ContactName }}</div>
+          <div class="orderbody">{{ fields.OrderManifest }}</div>
+          <div class="orderfooter">Items {{ fields.TotalItems }}</div>
+        </div>
+      </template>
+      <template data-type="loading">
+        loading
+      </template>
+      <template data-type="error">
+        {{ this.message }}
+      </template>
+    </mgt-get>
+  </body>
+</html>
+```
+
+Save those changes and refresh the browser. You should now see the cards for the 2 orders in SharePoint.
+Experiment by going to SharePoint and changing the `Status` of orders. Due to the polling of mgt-get within 5 seconds your changes will be reflected in the web application.
+
+![mgtgetresult](./images/mgt-09.jpg)
+
+
 
 ## Update SharePoint item status using Graph SDK (obtained through MGT Provider)
 TODO

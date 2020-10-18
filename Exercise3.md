@@ -327,7 +327,7 @@ https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/wareh
     </mgt-get>
 ```
 
-The full index.html should now look similar to this (with your application ID and Graph query targeting your SharePoint tenant)
+The full index.html should now look similar to this (with your client ID and Graph query targeting your SharePoint tenant)
 ```
 <html>
   <head>
@@ -368,10 +368,79 @@ Experiment by going to SharePoint and changing the `Status` of orders. Due to th
 ![mgtgetresult](./images/mgt-09.jpg)
 
 
-
 ## Update SharePoint item status using Graph SDK (obtained through MGT Provider)
-TODO
+Now to give our warehouse packers to ability to mark the order as packed and update the status of the item in SharePoint. The Graph Toolkit doesn't have any components which are going to allow us to update a SharePoint item. For this we are going to get a handle on the underlying Graph SDK client that the Toolkit has initialised and been using under the covers all along. 
 
+First we add a `Mark as Packed` button to each of the order cards by updating the mgt-get template.
 
-https://developer.microsoft.com/en-us/microsoft-365/blogs/a-lap-around-microsoft-graph-toolkit-day-2-zero-to-hero/
+```
+<button onclick="changeStatusToPacked(this,'{{id}}')">Mark as Packed</button>
+```
+
+Then we add our first lines of JavaScript to the bottom of the `<body>`. This will get called when the `Mark as Packed` button is pressed. This code gets the Graph SDK client from the Graph Toolkit providers and then makes the call to update the status of the item in SharePoint. Don't forget to substitue your tenant and list id.
+
+```
+<script>
+      let graphClient = mgt.Providers.globalProvider.graph.client;
+  
+      function changeStatusToPacked(button, itemId) {
+        const result = graphClient.api('/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse2:/lists/{YOUR-ORDERS-LIST-ID}/items/' + itemId + '/fields')
+        .middlewareOptions(mgt.prepScopes('sites.readwrite.all'))
+        .update({Status: 'Packed'});
+        button.className = 'inactive';
+      }
+    </script>
+```
+
+The final index.html file should now look like this (with your client ID and Graph queries targeting your SharePoint tenant)
+
+```
+<html>
+  <head>
+    <script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <mgt-msal-provider client-id="7ec83c73-e374-4a33-8b5c-280883c785d2"></mgt-msal-provider>
+    <header>
+      <ul>
+        <li>Warehouse App</li>
+        <li style="float:right"><mgt-login></mgt-login></li>
+      </ul>
+    </header>
+    <mgt-get resource="https://graph.microsoft.com/v1.0/sites/camtoso.sharepoint.com:/sites/warehouse:/lists/8965da33-f640-4edd-b04a-fc2cf141edf1/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'"
+     scopes="sites.read.all" max-pages="2" polling-rate="5000">
+      <template data-type="value">
+        <div class="order">
+          <div class="orderheader">Order {{ fields.Title }} for {{ fields.ContactName }}</div>
+          <div class="orderbody">{{ fields.OrderManifest }}</div>
+          <div class="orderfooter">Items {{ fields.TotalItems }}</div>
+          <button onclick="changeStatusToPacked(this,'{{id}}')">Mark as Packed</button>
+        </div>
+      </template>
+      <template data-type="loading">
+        loading
+      </template>
+      <template data-type="error">
+        {{ this.message }}
+      </template>
+    </mgt-get>
+    <script>
+      let graphClient = mgt.Providers.globalProvider.graph.client;
+  
+      function changeStatusToPacked(button, itemId) {
+        const result = graphClient.api('/sites/camtoso.sharepoint.com:/sites/warehouse:/lists/8965da33-f640-4edd-b04a-fc2cf141edf1/items/' + itemId + '/fields')
+        .middlewareOptions(mgt.prepScopes('sites.readwrite.all'))
+        .update({Status: 'Packed'});
+        button.className = 'inactive';
+      }
+    </script>
+  </body>
+</html>
+```
+Our Warehouse Application is now fully functional. Try pressing the `Mark as Packed` button, the status for the order will get updated in SharePoint and within 5 seconds (on the next polling operation) the card will be removed as it no longer matches the mgt-get query.
+
+![mgtgetresult](./images/mgt-10.jpg)
+
+🦒 Congratulations you've built a Graph Toolkit powered application without taking any shortcuts. 
  

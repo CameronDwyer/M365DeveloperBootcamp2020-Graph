@@ -443,4 +443,6 @@ Our Warehouse Application is now fully functional. Try pressing the `Mark as Pac
 ![mgtgetresult](./images/mgt-10.jpg)
 
 🦒 Congratulations you've built a Graph Toolkit powered application without taking any shortcuts. 
+
+Continue to view more Graph [Resources](Resources.md)
  

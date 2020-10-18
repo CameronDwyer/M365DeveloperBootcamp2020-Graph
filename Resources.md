@@ -5,6 +5,14 @@
  * [Exercise 3: Warehouse Packing App with Microsoft Graph Toolkit](Exercise3.md)
  * [Resources](Resources.md) **(You are here)**
 
+## Connect with Cameron Dwyer
+[Blog (camerondwyer.com)](https://camerondwyer.com)
+
+[Twitter](https://twitter.com/CameronDwyer)
+
+[LinkedIn](https://www.linkedin.com/in/camerondwyer/)
+
+
 ## Microsoft Graph
 [Microsoft Graph Developer Documentation](https://developer.microsoft.com/en-us/graph)
 

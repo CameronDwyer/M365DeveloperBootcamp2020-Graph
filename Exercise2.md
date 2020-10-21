@@ -18,10 +18,4 @@ Sign in to your dev tenant and open your Outlook calendar and create at least 3 
 
 Note that you can skip the prerequisite step of creating a developer tenant as you've already completed that in the lab setup, but ensure that you have Node.js installed. This lab has been tested with Node.js 12.19.0
 
-## ⚠ Known issues with this lab
-When you create the ui.js and copy the code, there is an error in the code. You must change the the following if statement to be `if (user)` instead of `if (account)`
-[Tutorial GitHub Repo - Issue 16](https://github.com/microsoftgraph/msgraph-training-javascriptspa/issues/16)
-
-![jsspa](./images/JS-SPA-02-if-user.jpg)
-
 When you've completed the tutorial, please [proceed to the next section.](Exercise3.md)

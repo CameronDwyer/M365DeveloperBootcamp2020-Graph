@@ -291,7 +291,7 @@ https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/wareh
 5. Modify the Graph query as shown below to query the Orders list for items in the Status of `Ready for Packing`
 
 ```
-https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists/{YOUR-ORDERS-LIST-ID}/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'"
+https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists/{YOUR-ORDERS-LIST-ID}/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'
 ```  
 6. Verify that your are getting the correct 2 SharePoint items returned from this query.
 

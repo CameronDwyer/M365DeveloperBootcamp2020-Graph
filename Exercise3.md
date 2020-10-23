@@ -301,7 +301,7 @@ https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/wareh
 1. Add the mgt-get component to the index.html file and insert your query from the Graph Explorer
 ```
 <mgt-get resource="https://graph.microsoft.com/v1.0/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists/{YOUR-ORDERS-LIST-ID}/items?$expand=fields&$filter=fields/Status eq 'Ready for Packing'"
-     scopes="sites.read.all" max-pages="2" polling-rate="5000">
+     scopes="sites.read.all" max-pages="2" polling-rate="5000" />
 ```
 
 * `scopes` property tells the Graph Toolkit the permissions the user needs to have consented to for our query (the Graph Toolkit will automatically prompt the user for consent the first time this query runs)

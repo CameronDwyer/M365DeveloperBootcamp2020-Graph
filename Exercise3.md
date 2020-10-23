@@ -384,7 +384,7 @@ Then we add our first lines of JavaScript to the bottom of the `<body>`. This wi
       let graphClient = mgt.Providers.globalProvider.graph.client;
   
       function changeStatusToPacked(button, itemId) {
-        const result = graphClient.api('/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse2:/lists/{YOUR-ORDERS-LIST-ID}/items/' + itemId + '/fields')
+        const result = graphClient.api('/sites/{YOUR-TENANT}.sharepoint.com:/sites/warehouse:/lists/{YOUR-ORDERS-LIST-ID}/items/' + itemId + '/fields')
         .middlewareOptions(mgt.prepScopes('sites.readwrite.all'))
         .update({Status: 'Packed'});
         button.className = 'inactive';

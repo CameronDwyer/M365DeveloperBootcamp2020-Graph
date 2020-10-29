@@ -5,7 +5,7 @@
  * [Exercise 3: Warehouse Packing App with Microsoft Graph Toolkit](Exercise3.md) **(You are here)**
  * [Resources](Resources.md)
  
-The scenario for this exercise is that our company sells products online and those online orders are created in a SharePoint List. We are going to build a lightweight single page web application using HTML, CSS and JavaScript for the warehouse packing staff to be able to view the orders that are ready for packing on a small device. The warehouse staff will carry this device with them as move about the warehouse collecting and packing the products into a box for the customer. When they are done our web application will also allow the packing staff to mark the order as packed.
+The scenario for this exercise is that our company sells products online and those online orders are created in a SharePoint List. We are going to build a lightweight single page web application using HTML, CSS and JavaScript for the warehouse packing staff to be able to view the orders that are ready for packing on a small device. The warehouse staff will carry this device with them as they move about the warehouse collecting and packing the products into a box for the customer. When they are done our web application will also allow the packing staff to mark the order as packed.
 
 ## Clean up after completing Exercise 2
 If you still have a command-line running your local http-server from Excerise 2 you will need to stop if before continuing as starting another http-server will create it on a different port number. To stop the http-server close your command-line window or use CTRL+C.
@@ -222,7 +222,7 @@ Time to make the magic happen 🎩🐇
 <mgt-msal-provider client-id="{YOUR APPLICATION (CLIENT) ID}"></mgt-msal-provider>
 ```
 
-3. Add the mgt-login component as a new `<li>` within the `<header>` of the index.html file. This will render the Grpah Toolkit Login control in the hader bar across the top of our application.
+3. Add the mgt-login component as a new `<li>` within the `<header>` of the index.html file. This will render the Graph Toolkit Login control in the header bar across the top of our application.
 
 ```
 <li style="float:right"><mgt-login></mgt-login></li>
